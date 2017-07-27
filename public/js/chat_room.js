@@ -20,6 +20,7 @@ $("#submitPost").on("click", e => {
   e.preventDefault();
   socket.emit("newMessage", {
     username: $(".storedName").text(),
-    message: $(".message").val()
+    message: $(".message").val(),
+    roomName: $(".roomName").val()
   });
 });

@@ -10,7 +10,11 @@ const redisTools = require("./lib/redis_tools");
 // const { getUserIds, getUsername } = require("./lib/get_user_info");
 const { getUsernames } = require("./lib/get_user_info");
 const { getRoomNames } = require("./lib/room_info");
-const { generateUserInfo, generateRoomInfo } = require("./lib/redis_tools");
+const {
+  generateUserInfo,
+  generateRoomInfo,
+  generateMessageInfo
+} = require("./lib/redis_tools");
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -40,6 +44,11 @@ io.on("connection", client => {
   });
 
   client.on("newMessage", newMessage => {
+    generateMessageInfo(
+      newMessage.message,
+      newMessage.username,
+      newMessage.roomName
+    );
     io.emit("newMessageFromServer", newMessage);
   });
 });
